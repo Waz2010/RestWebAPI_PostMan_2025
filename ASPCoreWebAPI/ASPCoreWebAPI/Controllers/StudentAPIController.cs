@@ -24,8 +24,8 @@ namespace ASPCoreWebAPI.Controllers
 
         }
 
-        [HttpGet("id")]
-        public async Task<ActionResult<List<Student>>> GetStudentsById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Student>> GetStudentsById(int id)
         {
             var studentdata = await conext.Students.FindAsync(id);
             if(studentdata == null)
@@ -44,15 +44,26 @@ namespace ASPCoreWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<Student>>> UpdateStudent(int id, Student std)
+        public async Task<ActionResult<Student>> UpdateStudent(int id, Student std)
         {
-            if(id != std.Id)
-            {
-                return BadRequest();
-            }
-            conext.Entry(std).State = EntityState.Modified;
+            var existingStudent = await conext.Students.FindAsync(id);
+            if (existingStudent == null) {return NotFound();}
+
+            // Update only the necessary fields, keeping the ID unchanged
+            existingStudent.StudentName = std.StudentName;
+            existingStudent.StudentGender = std.StudentGender;
+            existingStudent.Age = std.Age;
+            existingStudent.Standard = std.Standard;
+            existingStudent.FatherName = std.FatherName;
+
+
             await conext.SaveChangesAsync();
-            return Ok(std);
+
+            return Ok(new
+            {
+                message = "Student updated successfully",
+                student = existingStudent
+            });
         }
 
         [HttpDelete("{id}")]

@@ -16,6 +16,7 @@ namespace ASPCoreWebAPI.Models
         {
         }
 
+        public virtual DbSet<ApplicationProfile> ApplicationProfiles { get; set; } = null!;
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; } = null!;
@@ -27,13 +28,63 @@ namespace ASPCoreWebAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Server=LAPTOP-1GHBF71S\\WASEEMSQL;Database=UsersDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
+                optionsBuilder.UseSqlServer("Server=LAPTOP-1GHBF71S\\WASEEMSQL;Database=UsersDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApplicationProfile>(entity =>
+            {
+                entity.ToTable("ApplicationProfile");
+
+                entity.Property(e => e.Address1).HasMaxLength(200);
+
+                entity.Property(e => e.Address2).HasMaxLength(200);
+
+                entity.Property(e => e.AttachedResumeUrl).HasMaxLength(300);
+
+                entity.Property(e => e.City).HasMaxLength(100);
+
+                entity.Property(e => e.Country).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DeletedBy).HasMaxLength(100);
+
+                entity.Property(e => e.DeletedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Education).HasMaxLength(200);
+
+                entity.Property(e => e.EducationSubject).HasMaxLength(200);
+
+                entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.FirstName).HasMaxLength(100);
+
+                entity.Property(e => e.LastName).HasMaxLength(100);
+
+                entity.Property(e => e.MiddleName).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Nationality).HasMaxLength(100);
+
+                entity.Property(e => e.NoticePeriod).HasMaxLength(100);
+
+                entity.Property(e => e.Phone).HasMaxLength(50);
+
+                entity.Property(e => e.State).HasMaxLength(100);
+
+                entity.Property(e => e.WriteFullName).HasMaxLength(200);
+
+                entity.Property(e => e.Zipcode).HasMaxLength(20);
+            });
+
             modelBuilder.Entity<AspNetRole>(entity =>
             {
                 entity.HasIndex(e => e.Name, "RoleNameIndex")
@@ -124,11 +175,8 @@ namespace ASPCoreWebAPI.Models
                 entity.Property(e => e.ProductVersion).HasMaxLength(32);
             });
 
-
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.FatherName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
