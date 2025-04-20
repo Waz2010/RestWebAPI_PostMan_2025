@@ -7,7 +7,7 @@ namespace ASPCoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ApplicationProfileController : ControllerBase
     {
         private readonly UsersDBContext _context;
