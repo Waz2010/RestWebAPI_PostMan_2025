@@ -1,4 +1,4 @@
-﻿using ASPCoreWebAPI.Models;
+using ASPCoreWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,98 +7,104 @@ namespace ASPCoreWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    //[Authorize] // Uncommented to enable authorization
     public class ApplicationProfileController : ControllerBase
     {
         private readonly UsersDBContext _context;
-        public ApplicationProfileController(UsersDBContext _Conext)
+        private readonly ILogger<ApplicationProfileController> _logger;
+
+        public ApplicationProfileController(UsersDBContext context, ILogger<ApplicationProfileController> logger)
         {
-            _context = _Conext;
+            _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<ApplicationProfile>>> GetApplicationProfiles()
         {
-            var applicationProfiledata = await _context.ApplicationProfiles.Where(x => x.DeletedOn == null).ToListAsync();
-            return Ok(applicationProfiledata);
+            return Ok(await _context.ApplicationProfiles.Where(x => x.DeletedOn == null).ToListAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationProfile>> GetApplicationProfilesById(int id)
         {
-            var applicationProfiledata = await _context.ApplicationProfiles.FindAsync(id);
-            if (applicationProfiledata == null)
+            var profile = await _context.ApplicationProfiles.FindAsync(id);
+            if (profile == null)
             {
                 return NotFound();
             }
-            return Ok(applicationProfiledata);
+            return Ok(profile);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ApplicationProfile>>> CreateApplicationProfile(ApplicationProfile applicationProfiless)
+        public async Task<ActionResult<ApplicationProfile>> CreateApplicationProfile([FromBody] ApplicationProfile applicationProfile)
         {
-            applicationProfiless.CreatedOn = DateTime.Now;
-            //applicationProfiless.CreatedBy = DateTime. TO DO
-            await _context.AddAsync(applicationProfiless);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            applicationProfile.CreatedOn = DateTime.UtcNow;
+            await _context.AddAsync(applicationProfile);
             await _context.SaveChangesAsync();
-            return Ok(applicationProfiless);
+
+            return CreatedAtAction(nameof(GetApplicationProfilesById), new { id = applicationProfile.Id }, applicationProfile);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ApplicationProfile>> UpdateApplicationProfile(int id, ApplicationProfile std)
+        public async Task<ActionResult<ApplicationProfile>> UpdateApplicationProfile(int id, [FromBody] ApplicationProfile updatedProfile)
         {
-            var existingApplicationProfile = await _context.ApplicationProfiles.FindAsync(id);
-            if (existingApplicationProfile == null) { return NotFound(); }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            // Update only the necessary fields, keeping the ID unchanged
-            existingApplicationProfile.FirstName = std.FirstName;
-            existingApplicationProfile.MiddleName = std.MiddleName;
-            existingApplicationProfile.LastName = std.LastName;
-            existingApplicationProfile.Phone = std.Phone;
-            existingApplicationProfile.Email = std.Email;
-            existingApplicationProfile.Address1 = std.Address1;
-            existingApplicationProfile.Address2 = std.Address2;
-            existingApplicationProfile.City = std.City;
-            existingApplicationProfile.State = std.State;
-            existingApplicationProfile.Zipcode = std.Zipcode;
-            existingApplicationProfile.Country = std.Country;
-            existingApplicationProfile.Experience = std.Experience;
-            existingApplicationProfile.Education = std.Education;
-            existingApplicationProfile.EducationSubject = std.EducationSubject;
-            existingApplicationProfile.WorkedForUs = std.WorkedForUs;
-            existingApplicationProfile.Nationality = std.Nationality;
-            existingApplicationProfile.NoticePeriod = std.NoticePeriod;
-            existingApplicationProfile.WriteFullName = std.WriteFullName;
-            existingApplicationProfile.AttachedResumeUrl = std.AttachedResumeUrl;
-            existingApplicationProfile.ModifiedOn = DateTime.Now;
-            //existingApplicationProfile.ModifiedBy = std.ModifiedBy; TO DO
+            var profile = await _context.ApplicationProfiles.FindAsync(id);
+            if (profile == null)
+            {
+                return NotFound();
+            }
 
-
+            // Update fields
+            profile.FirstName = updatedProfile.FirstName;
+            profile.MiddleName = updatedProfile.MiddleName;
+            profile.LastName = updatedProfile.LastName;
+            profile.Phone = updatedProfile.Phone;
+            profile.Email = updatedProfile.Email;
+            profile.Address1 = updatedProfile.Address1;
+            profile.Address2 = updatedProfile.Address2;
+            profile.City = updatedProfile.City;
+            profile.State = updatedProfile.State;
+            profile.Zipcode = updatedProfile.Zipcode;
+            profile.Country = updatedProfile.Country;
+            profile.Experience = updatedProfile.Experience;
+            profile.Education = updatedProfile.Education;
+            profile.EducationSubject = updatedProfile.EducationSubject;
+            profile.WorkedForUs = updatedProfile.WorkedForUs;
+            profile.Nationality = updatedProfile.Nationality;
+            profile.NoticePeriod = updatedProfile.NoticePeriod;
+            profile.WriteFullName = updatedProfile.WriteFullName;
+            profile.AttachedResumeUrl = updatedProfile.AttachedResumeUrl;
+            profile.ModifiedOn = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
             return Ok(new
             {
                 message = "ApplicationProfile updated successfully",
-                applicationProfile = existingApplicationProfile
+                applicationProfile = profile
             });
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<ApplicationProfile>>> DeleteApplicationProfile(int id)
         {
-            var std = await _context.ApplicationProfiles.FindAsync(id)
-
-;
-            if (std == null)
+            var profile = await _context.ApplicationProfiles.FindAsync(id);
+            if (profile == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            std.DeletedOn = DateTime.Now;
-           //std.DeletedBy = std.DeletedBy;
-            //_context.ApplicationProfiles.Remove(std);
+
+            profile.DeletedOn = DateTime.UtcNow;
             await _context.SaveChangesAsync();
-            return Ok(std);
+
+            return Ok(profile);
         }
     }
 }
