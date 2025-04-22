@@ -13,7 +13,7 @@ namespace ASPCoreWebAPI.Controllers
         private readonly UsersDBContext _context;
         private readonly ILogger<ApplicationProfileController> _logger;
 
-        public ApplicationProfileController(UsersDBContext context, ILogger<ApplicationProfileController> logger) 
+        public ApplicationProfileController(UsersDBContext context, ILogger<ApplicationProfileController> logger)
         {
             _context = context;
             _logger = logger;

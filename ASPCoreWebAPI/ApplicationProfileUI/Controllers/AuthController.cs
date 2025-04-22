@@ -1,5 +1,4 @@
 ﻿using ApplicationProfileUI.Models;
-using ApplicationProfileUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -28,6 +27,7 @@ namespace ApplicationProfileUI.Controllers
             return View();
         }
         [HttpPost]
+
 
         public IActionResult Login()
         {
