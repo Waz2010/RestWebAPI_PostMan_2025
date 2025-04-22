@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ApplicationProfileUI.Models.ApplicationProfile>
+
+@{
+    ViewData["Title"] = "Applicants";
+}
+
+<h1 class="mt-4 mb-4">Applicants</h1>
+
+@{
+    if (TempData["insert_Message"] != null)
+    {
+        <div id="tempSuccessAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> @TempData["insert_Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}
+<p>
+    <a asp-action="Create" class="btn btn-primary mb-3">Create New</a>
+</p>
+
+<div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+    <table class="table table-bordered table-hover table-striped align-middle">
+        <thead class="table-dark sticky-top">
+            <tr>
+                <th>#</th>
+                <th>@Html.DisplayNameFor(model => model.First().FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.First().LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Email)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Phone)</th>
+                <th>@Html.DisplayNameFor(model => model.First().City)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Education)</th>
+                <th>@Html.DisplayNameFor(model => model.First().CreatedOn)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int serialNumber = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(serialNumber++)</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td>@item.City</td>
+                    <td>@item.Education</td>
+                    <td>@item.CreatedOn.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                responsive: true,
+                lengthMenu: [5, 10, 25, 50,100],
+                language: {
+                    search: "Search Application:"
+                }
+            });
+                // Auto-dismiss alert after 4 seconds
+            setTimeout(function () {
+                $('#tempSuccessAlert').fadeTo(500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 3000); // 3000ms = 3 seconds
+        });
+    </script>
+}

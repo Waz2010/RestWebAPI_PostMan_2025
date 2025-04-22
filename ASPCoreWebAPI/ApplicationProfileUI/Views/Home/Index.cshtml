@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 mb-4">Welcome to the Job Application Portal</h1>
+    <p class="lead mb-5">An online system for job candidates to apply, upload resumes, and track their application progress.</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 mb-3">
+            <a asp-controller="Home" asp-action="About" class="btn btn-info btn-lg w-100">About</a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a href="https://testrestapi.setrents.com/swagger/index.html" class="btn btn-primary btn-lg w-100" target="_blank" rel="noopener noreferrer">View API (Swagger)</a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success btn-lg w-100">Login</a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-secondary btn-lg w-100">Create Account</a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="ApplicationProfileUI" asp-action="Create" class="btn btn-warning btn-lg w-100">Create Application</a>
+        </div>
+        <div class="col-md-3 mb-3">
+            <a asp-controller="ApplicationProfileUI" asp-action="Index" class="btn btn-warning btn-lg w-100">View All Applications</a>
+        </div>
+    </div>
+</div>
+

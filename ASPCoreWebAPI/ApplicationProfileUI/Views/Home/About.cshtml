@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">About This Application</h1>
+
+    <p>
+        This web application is a robust, full-stack online solution built using modern Microsoft technologies. It is designed specifically for job applicants to easily apply for positions, manage their profiles, and track their application statuses.
+    </p>
+
+    <h3 class="mt-4">Purpose</h3>
+    <p>
+        This system provides a streamlined online job application process. Candidates can:
+    </p>
+    <ul>
+        <li>Create a secure user account.</li>
+        <li>Fill out a detailed job application form including personal details, experience, and education.</li>
+        <li>Attach and submit their resume.</li>
+        <li>Log back in later to check the status of their submitted application.</li>
+    </ul>
+
+    <h3 class="mt-4">1. RESTful API (Backend)</h3>
+    <p>
+        The backend is built using <strong>ASP.NET Core 6.0 Web API</strong>. It handles all business logic, validation, data processing, and secure communication. The API interacts with a <strong>Microsoft SQL Server</strong> database using the <strong>Entity Framework (Database First)</strong> approach.
+    </p>
+
+    <h5>Key Features:</h5>
+    <ul>
+        <li>Written in <strong>C#</strong> using <strong>.NET 6.0</strong>.</li>
+        <li>Entity Framework Core with <strong>Database First</strong> strategy.</li>
+        <li>RESTful architecture returning JSON data.</li>
+        <li>Implements clean separation of concerns and scalable service structure.</li>
+        <li>HTTPS enforced for secure communication.</li>
+        <li>Token-based authentication using <strong>JWT (JSON Web Token)</strong>.</li>
+        <li>On successful login, a token is issued and attached to each API request to authorize the user.</li>
+    </ul>
+
+    <h3 class="mt-4">2. UI Frontend</h3>
+    <p>
+        The frontend is a standalone <strong>ASP.NET Core MVC</strong> application that interacts with the API using secured HTTP calls. It provides a clean, responsive user interface for job applicants.
+    </p>
+
+    <h5>Key Features:</h5>
+    <ul>
+        <li>Built using <strong>Razor Pages</strong> following the MVC pattern.</li>
+        <li>Styled with <strong>Bootstrap</strong> for a modern, mobile-friendly UI.</li>
+        <li>Integrates with backend via <strong>HttpClient</strong> to send and retrieve data.</li>
+        <li>Authentication token is stored securely to allow access to internal pages after login.</li>
+        <li>Token is cleared upon logout, ensuring session security.</li>
+        <li>Provides features like account creation, application form submission, resume upload, and status view.</li>
+        <li>Includes PDF rendering functionality via <strong>Rotativa.AspNetCore</strong> to generate printable application views.</li>
+        <li>Uses <strong>ASP.NET Core Identity</strong> for secure user registration, login, password management, and session tracking.</li>
+    </ul>
+
+    <h3 class="mt-4">Deployment & Hosting</h3>
+    <ul>
+        <li>Deployed on a dedicated web server for real-time public access.</li>
+        <li>Project code and version control are managed using <strong>Azure Cloud</strong>.</li>
+        <li>Designed to scale and adapt for future enhancements, such as mobile or admin dashboards.</li>
+    </ul>
+
+    <p>
+        The architecture promotes a clean separation between backend services and frontend presentation, ensuring better maintainability, flexible deployments, and potential integration with other clients such as mobile apps or third-party services.
+    </p>
+</div>
+

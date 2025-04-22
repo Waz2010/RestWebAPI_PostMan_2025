@@ -1,0 +1,144 @@
+﻿@model ApplicationProfileUI.Models.ApplicationProfile
+
+@{
+    ViewData["Title"] = "Applicant Details";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Applicant Details</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Application Review</h5>
+        </div>
+        <div class="card-body">
+            <!-- Personal Information Section -->
+            <div class="mb-4">
+                <h6 class="border-bottom pb-2 mb-3">Personal Information</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="text-muted">First Name</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.FirstName</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Middle Name</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@(string.IsNullOrEmpty(Model.MiddleName) ? "-" : Model.MiddleName)</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Last Name</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.LastName</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="mb-4">
+                <h6 class="border-bottom pb-2 mb-3">Contact Information</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="text-muted">Email</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Email</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted">Phone</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Phone</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="mb-4">
+                <h6 class="border-bottom pb-2 mb-3">Address</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="text-muted">Address Line 1</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Address1</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted">Address Line 2</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@(string.IsNullOrEmpty(Model.Address2) ? "-" : Model.Address2)</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">City</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.City</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">State</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.State</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Zip Code</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Zipcode</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted">Country</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Country</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Information Section -->
+            <div class="mb-4">
+                <h6 class="border-bottom pb-2 mb-3">Professional Information</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="text-muted">Experience</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Experience</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Education</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Education</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Education Major</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.EducationSubject</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Nationality</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.Nationality</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Notice Period</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.NoticePeriod</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-muted">Previously Worked With Us</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@(Model.WorkedForUs ? "Yes" : "No")</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="mb-4">
+                <h6 class="border-bottom pb-2 mb-3">Additional Information</h6>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="text-muted">Full Name (Typed)</label>
+                        <div class="form-control-plaintext border-bottom pb-2">@Model.WriteFullName</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted">Resume URL</label>
+                        <div class="form-control-plaintext border-bottom pb-2">
+                            @if (!string.IsNullOrEmpty(Model.AttachedResumeUrl))
+                            {
+                                <a href="@Model.AttachedResumeUrl" target="_blank">View Resume</a>
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger ms-2">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

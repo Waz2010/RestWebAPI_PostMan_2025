@@ -26,10 +26,6 @@ namespace ASPCoreWebAPI.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=LAPTOP-1GHBF71S\\WASEEMSQL;Database=UsersDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
